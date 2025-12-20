@@ -1,0 +1,46 @@
+# Системные файлы Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Системные файлы macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Системные файлы Linux
+*~
+
+# Временные файлы
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*~
+
+# Файлы редакторов
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node.js (если будет использоваться)
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Файлы окружения
+.env
+.env.local
+
+# Кэш браузера
+.cache/
+
+# Backup файлы
+*.bak
+*.backup
+

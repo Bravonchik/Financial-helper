@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бюджет - Финансовый помощник</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="budget.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <span class="logo-text">Финансовый помощник</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Главная</span>
+                </a>
+                <a href="transactions.html" class="nav-link">
+                    <i class="fas fa-list"></i>
+                    <span>Транзакции</span>
+                </a>
+                <a href="budget.html" class="nav-link active">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Бюджет</span>
+                </a>
+                <a href="reports.html" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Отчёты</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Профиль</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок -->
+            <div class="page-header-budget">
+                <div>
+                    <h1 class="page-title">Планирование бюджета</h1>
+                    <p class="page-subtitle">Управляйте своими расходами по категориям</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddCategoryModal()">
+                    <i class="fas fa-plus"></i>
+                    <span>Добавить категорию</span>
+                </button>
+            </div>
+
+            <!-- Карточки сводки бюджета -->
+            <div class="budget-summary-grid">
+                <div class="budget-summary-card">
+                    <div class="summary-header">
+                        <i class="fas fa-arrow-up"></i>
+                        <h3>Месячный бюджет</h3>
+                    </div>
+                    <div class="summary-value">110 000 Р</div>
+                    <div class="summary-description">Запланировано на ноябрь</div>
+                </div>
+                <div class="budget-summary-card">
+                    <div class="summary-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Потрачено</h3>
+                    </div>
+                    <div class="summary-value red">92 700 Р</div>
+                    <div class="summary-description">84% от бюджета</div>
+                </div>
+                <div class="budget-summary-card">
+                    <div class="summary-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Осталось</h3>
+                    </div>
+                    <div class="summary-value green">17 300 Р</div>
+                    <div class="summary-description">До конца месяца</div>
+                </div>
+            </div>
+
+            <!-- Общий прогресс -->
+            <div class="progress-card">
+                <h3 class="progress-title">Общий прогресс</h3>
+                <p class="progress-subtitle">Использовано бюджета</p>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar-large">
+                        <div class="progress-fill orange" style="width: 84%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>0 Р</span>
+                        <span class="progress-percent">84%</span>
+                        <span>110 000 Р</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Предупреждение о превышении -->
+            <div class="alert-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <h4>Превышение бюджета</h4>
+                    <p>У вас есть категории с превышением запланированного бюджета. Рекомендуем пересмотреть расходы.</p>
+                </div>
+            </div>
+
+            <!-- Категории бюджета -->
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-header">
+                        <div class="category-icon blue"></div>
+                        <h3>Продукты</h3>
+                    </div>
+                    <div class="category-amount green">35 000 Р</div>
+                    <div class="category-budget">из 40 000 Р</div>
+                    <div class="category-progress-bar">
+                        <div class="progress-fill orange" style="width: 88%"></div>
+                    </div>
+                    <div class="category-footer">
+                        <div class="category-status">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Осталось: 5 000 Р</span>
+                        </div>
+                        <div class="category-percent">88%</div>
+                    </div>
+                    <div class="category-actions">
+                        <a href="#" class="action-link" onclick="openEditCategoryModal('Продукты', 40000, '#3b82f6'); return false;">
+                            <i class="fas fa-pencil-alt"></i>
+                            <span>Изменить</span>
+                        </a>
+                        <a href="#" class="action-link delete" onclick="deleteCategory('Продукты'); return false;">
+                            <i class="fas fa-trash"></i>
+                            <span>Удалить</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category-card warning">
+                    <div class="category-header">
+                        <div class="category-icon orange"></div>
+                        <h3>Транспорт</h3>
+                    </div>
+                    <div class="category-amount red">15 000 Р</div>
+                    <div class="category-budget">из 10 000 Р</div>
+                    <div class="category-progress-bar">
+                        <div class="progress-fill red" style="width: 150%"></div>
+                    </div>
+                    <div class="category-footer">
+                        <div class="category-status warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Превышение: 5 000 Р</span>
+                        </div>
+                        <div class="category-percent red">150%</div>
+                    </div>
+                    <div class="category-actions">
+                        <a href="#" class="action-link" onclick="openEditCategoryModal('Транспорт', 10000, '#f97316'); return false;">
+                            <i class="fas fa-pencil-alt"></i>
+                            <span>Изменить</span>
+                        </a>
+                        <a href="#" class="action-link delete" onclick="deleteCategory('Транспорт'); return false;">
+                            <i class="fas fa-trash"></i>
+                            <span>Удалить</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div class="category-icon pink"></div>
+                        <h3>Здоровье</h3>
+                    </div>
+                    <div class="category-amount green">4 500 Р</div>
+                    <div class="category-budget">из 10 000 Р</div>
+                    <div class="category-progress-bar">
+                        <div class="progress-fill green" style="width: 45%"></div>
+                    </div>
+                    <div class="category-footer">
+                        <div class="category-status">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Осталось: 5 500 Р</span>
+                        </div>
+                        <div class="category-percent green">45%</div>
+                    </div>
+                    <div class="category-actions">
+                        <a href="#" class="action-link" onclick="openEditCategoryModal('Здоровье', 10000, '#ec4899'); return false;">
+                            <i class="fas fa-pencil-alt"></i>
+                            <span>Изменить</span>
+                        </a>
+                        <a href="#" class="action-link delete" onclick="deleteCategory('Здоровье'); return false;">
+                            <i class="fas fa-trash"></i>
+                            <span>Удалить</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div class="category-icon teal"></div>
+                        <h3>Косметика</h3>
+                    </div>
+                    <div class="category-amount green">0 Р</div>
+                    <div class="category-budget">из 10 000 Р</div>
+                    <div class="category-progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="category-footer">
+                        <div class="category-status">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Осталось: 10 000 Р</span>
+                        </div>
+                        <div class="category-percent green">0%</div>
+                    </div>
+                    <div class="category-actions">
+                        <a href="#" class="action-link" onclick="openEditCategoryModal('Косметика', 10000, '#14b8a6'); return false;">
+                            <i class="fas fa-pencil-alt"></i>
+                            <span>Изменить</span>
+                        </a>
+                        <a href="#" class="action-link delete" onclick="deleteCategory('Косметика'); return false;">
+                            <i class="fas fa-trash"></i>
+                            <span>Удалить</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно добавления категории -->
+    <div id="addCategoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить новую категорию</h2>
+                <button class="modal-close" onclick="closeModal('addCategoryModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">Создайте новую категорию бюджета для отслеживания расходов</p>
+                <form id="addCategoryForm">
+                    <div class="form-group">
+                        <label>Название категории</label>
+                        <input type="text" class="form-input" placeholder="Например: Образование" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Сумма бюджета (Р)</label>
+                        <input type="number" class="form-input" value="10000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Цвет категории</label>
+                        <div class="color-picker">
+                            <div class="color-option active" data-color="#3b82f6" style="background: #3b82f6"></div>
+                            <div class="color-option" data-color="#f97316" style="background: #f97316"></div>
+                            <div class="color-option" data-color="#8b5cf6" style="background: #8b5cf6"></div>
+                            <div class="color-option" data-color="#14b8a6" style="background: #14b8a6"></div>
+                            <div class="color-option" data-color="#ec4899" style="background: #ec4899"></div>
+                            <div class="color-option" data-color="#0d9488" style="background: #0d9488"></div>
+                            <div class="color-option" data-color="#10b981" style="background: #10b981"></div>
+                            <div class="color-option" data-color="#ef4444" style="background: #ef4444"></div>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('addCategoryModal')">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Добавить категорию</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования категории -->
+    <div id="editCategoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Редактировать категорию</h2>
+                <button class="modal-close" onclick="closeModal('editCategoryModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-subtitle">Измените параметры категории бюджета</p>
+                <form id="editCategoryForm">
+                    <div class="form-group">
+                        <label>Название категории</label>
+                        <input type="text" class="form-input" id="editCategoryName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Сумма бюджета (Р)</label>
+                        <input type="number" class="form-input" id="editCategoryAmount" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Цвет категории</label>
+                        <div class="color-picker">
+                            <div class="color-option" data-color="#3b82f6" style="background: #3b82f6"></div>
+                            <div class="color-option" data-color="#f97316" style="background: #f97316"></div>
+                            <div class="color-option" data-color="#8b5cf6" style="background: #8b5cf6"></div>
+                            <div class="color-option" data-color="#ec4899" style="background: #ec4899"></div>
+                            <div class="color-option" data-color="#14b8a6" style="background: #14b8a6"></div>
+                            <div class="color-option" data-color="#ef4444" style="background: #ef4444"></div>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('editCategoryModal')">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="budget.js"></script>
+</body>
+</html>
+

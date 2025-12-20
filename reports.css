@@ -1,0 +1,226 @@
+/* Стили для страницы отчётов */
+
+/* Панель управления периодом */
+.period-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.period-control label {
+    font-weight: 500;
+    color: #333;
+}
+
+.period-select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    font-size: 0.95rem;
+    color: #333;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+.period-select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Метрики отчётов */
+.reports-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.report-metric-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.report-metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.metric-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.metric-icon-wrapper.green {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.metric-icon-wrapper.red {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.metric-icon-wrapper.blue {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.metric-icon-wrapper.purple {
+    background: #ede9fe;
+    color: #8b5cf6;
+}
+
+.metric-content {
+    flex: 1;
+}
+
+.metric-content h3 {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.metric-content .metric-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.metric-content .metric-value.green {
+    color: #10b981;
+}
+
+.metric-content .metric-value.red {
+    color: #ef4444;
+}
+
+.metric-content .metric-value.blue {
+    color: #3b82f6;
+}
+
+.metric-content .metric-value.purple {
+    color: #8b5cf6;
+}
+
+.metric-period {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Вкладки */
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.tab-button {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+    color: #333;
+    background: #f9fafb;
+}
+
+.tab-button.active {
+    color: #667eea;
+    border-bottom-color: #667eea;
+}
+
+/* Контент вкладок */
+.tab-content {
+    position: relative;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chart-card-large {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.chart-container-large {
+    position: relative;
+    height: 400px;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .period-control {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .period-select {
+        width: 100%;
+    }
+
+    .reports-metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .tab-button {
+        white-space: nowrap;
+        padding: 0.75rem 1rem;
+    }
+
+    .chart-container-large {
+        height: 300px;
+    }
+}
+

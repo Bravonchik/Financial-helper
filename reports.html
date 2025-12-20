@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отчёты - Финансовый помощник</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="reports.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <span class="logo-text">Финансовый помощник</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Главная</span>
+                </a>
+                <a href="transactions.html" class="nav-link">
+                    <i class="fas fa-list"></i>
+                    <span>Транзакции</span>
+                </a>
+                <a href="budget.html" class="nav-link">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Бюджет</span>
+                </a>
+                <a href="reports.html" class="nav-link active">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Отчёты</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Профиль</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок -->
+            <div class="page-header">
+                <h1 class="page-title">Отчёты</h1>
+                <p class="page-subtitle">Анализ ваших финансов</p>
+            </div>
+
+            <!-- Панель управления периодом -->
+            <div class="period-control">
+                <label>Период:</label>
+                <select class="period-select">
+                    <option>Последние 6 месяцев</option>
+                    <option>Последние 3 месяца</option>
+                    <option>Последний год</option>
+                    <option>Текущий месяц</option>
+                </select>
+                <button class="btn btn-primary">Применить</button>
+            </div>
+
+            <!-- Карточки метрик -->
+            <div class="reports-metrics-grid">
+                <div class="report-metric-card">
+                    <div class="metric-icon-wrapper green">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Всего доходов</h3>
+                        <div class="metric-value green">900 000 Р</div>
+                        <p class="metric-period">За 6 месяцев</p>
+                    </div>
+                </div>
+
+                <div class="report-metric-card">
+                    <div class="metric-icon-wrapper red">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Всего расходов</h3>
+                        <div class="metric-value red">616 000 Р</div>
+                        <p class="metric-period">За 6 месяцев</p>
+                    </div>
+                </div>
+
+                <div class="report-metric-card">
+                    <div class="metric-icon-wrapper blue">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Средний расход</h3>
+                        <div class="metric-value blue">102 667 Р</div>
+                        <p class="metric-period">В месяц</p>
+                    </div>
+                </div>
+
+                <div class="report-metric-card">
+                    <div class="metric-icon-wrapper purple">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Сбережения</h3>
+                        <div class="metric-value purple">284 000 Р</div>
+                        <p class="metric-period">За 6 месяцев</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладки -->
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab('dynamics')">Динамика</button>
+                <button class="tab-button" onclick="switchTab('categories')">По категориям</button>
+                <button class="tab-button" onclick="switchTab('comparison')">Сравнение</button>
+            </div>
+
+            <!-- Контент вкладок -->
+            <div class="tab-content">
+                <!-- Вкладка Динамика -->
+                <div id="dynamics-tab" class="tab-panel active">
+                    <div class="chart-card-large">
+                        <h3 class="chart-title">Доходы и расходы по месяцам</h3>
+                        <div class="chart-container-large">
+                            <canvas id="reportsLineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка По категориям -->
+                <div id="categories-tab" class="tab-panel">
+                    <div class="chart-card-large">
+                        <h3 class="chart-title">Расходы по категориям</h3>
+                        <div class="chart-container-large">
+                            <canvas id="categoriesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Вкладка Сравнение -->
+                <div id="comparison-tab" class="tab-panel">
+                    <div class="chart-card-large">
+                        <h3 class="chart-title">Сравнение периодов</h3>
+                        <div class="chart-container-large">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="auth.js"></script>
+    <script src="reports.js"></script>
+</body>
+</html>
+
