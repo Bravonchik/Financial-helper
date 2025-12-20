@@ -3,9 +3,9 @@
 ## 📋 Какие файлы нужно загружать
 
 ### ✅ ЗАГРУЖАТЬ (все эти файлы):
-- **HTML файлы**: `index.html`, `transactions.html`, `budget.html`, `reports.html`, `profile.html`, `login.html`
-- **CSS файлы**: `styles.css`, `transactions.css`, `budget.css`, `reports.css`, `profile.css`, `login.css`
-- **JavaScript файлы**: `script.js`, `transactions.js`, `budget.js`, `reports.js`, `profile.js`, `login.js`, `auth.js`
+- **HTML файлы**: `index.html`, `transactions.html`, `budget.html`, `reports.html`, `profile.html`
+- **CSS файлы**: `styles.css`, `transactions.css`, `budget.css`, `reports.css`, `profile.css`
+- **JavaScript файлы**: `script.js`, `transactions.js`, `budget.js`, `reports.js`, `profile.js`
 - **Документация**: `README.md`, `LOCAL_SERVER.md`
 - **Конфигурация**: `.gitignore` (уже создан)
 
