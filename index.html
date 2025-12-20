@@ -50,7 +50,7 @@
 
         ym(105949276, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
     </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/105949276" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <noscript><div><img src="https://mc.yandex.ru/watch/105949276" style="position:absolute; left:-9999px;" alt="Счётчик Яндекс.Метрики" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
     
     <!-- Структурированные данные Schema.org -->
@@ -96,30 +96,30 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <div class="logo-icon">
-                    <i class="fas fa-wallet"></i>
+                <div class="logo-icon" aria-label="Логотип финансового помощника">
+                    <i class="fas fa-wallet" aria-hidden="true"></i>
                 </div>
                 <span class="logo-text">Финансовый помощник</span>
             </div>
             <div class="nav-menu">
-                <a href="index.html" class="nav-link active">
-                    <i class="fas fa-home"></i>
+                <a href="index.html" class="nav-link active" aria-label="Главная страница">
+                    <i class="fas fa-home" aria-hidden="true"></i>
                     <span>Главная</span>
                 </a>
-                <a href="transactions.html" class="nav-link">
-                    <i class="fas fa-list"></i>
+                <a href="transactions.html" class="nav-link" aria-label="Страница транзакций">
+                    <i class="fas fa-list" aria-hidden="true"></i>
                     <span>Транзакции</span>
                 </a>
-                <a href="budget.html" class="nav-link">
-                    <i class="fas fa-chart-pie"></i>
+                <a href="budget.html" class="nav-link" aria-label="Страница бюджета">
+                    <i class="fas fa-chart-pie" aria-hidden="true"></i>
                     <span>Бюджет</span>
                 </a>
-                <a href="reports.html" class="nav-link">
-                    <i class="fas fa-chart-bar"></i>
+                <a href="reports.html" class="nav-link" aria-label="Страница отчётов">
+                    <i class="fas fa-chart-bar" aria-hidden="true"></i>
                     <span>Отчёты</span>
                 </a>
-                <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i>
+                <a href="profile.html" class="nav-link" aria-label="Страница профиля">
+                    <i class="fas fa-user" aria-hidden="true"></i>
                     <span>Профиль</span>
                 </a>
             </div>
@@ -142,9 +142,9 @@
                     <div class="metric-header">
                         <h3 class="metric-title">Текущий баланс</h3>
                         <div class="metric-header-actions">
-                            <i class="fas fa-wallet metric-icon blue"></i>
-                            <button class="edit-btn" onclick="openEditModal('balance')" title="Изменить">
-                                <i class="fas fa-edit"></i>
+                            <i class="fas fa-wallet metric-icon blue" aria-hidden="true" aria-label="Иконка кошелька"></i>
+                            <button class="edit-btn" onclick="openEditModal('balance')" title="Изменить" aria-label="Изменить текущий баланс">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -160,9 +160,9 @@
                     <div class="metric-header">
                         <h3 class="metric-title">Доходы</h3>
                         <div class="metric-header-actions">
-                            <i class="fas fa-chart-line metric-icon green"></i>
-                            <button class="edit-btn" onclick="openEditModal('income')" title="Изменить">
-                                <i class="fas fa-edit"></i>
+                            <i class="fas fa-chart-line metric-icon green" aria-hidden="true" aria-label="Иконка доходов"></i>
+                            <button class="edit-btn" onclick="openEditModal('income')" title="Изменить" aria-label="Изменить доходы">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -175,9 +175,9 @@
                     <div class="metric-header">
                         <h3 class="metric-title">Расходы</h3>
                         <div class="metric-header-actions">
-                            <i class="fas fa-chart-line metric-icon red"></i>
-                            <button class="edit-btn" onclick="openEditModal('expense')" title="Изменить">
-                                <i class="fas fa-edit"></i>
+                            <i class="fas fa-chart-line metric-icon red" aria-hidden="true" aria-label="Иконка расходов"></i>
+                            <button class="edit-btn" onclick="openEditModal('expense')" title="Изменить" aria-label="Изменить расходы">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -190,9 +190,9 @@
                     <div class="metric-header">
                         <h3 class="metric-title">Цель сбережений</h3>
                         <div class="metric-header-actions">
-                            <i class="fas fa-bullseye metric-icon purple"></i>
-                            <button class="edit-btn" onclick="openEditModal('savings')" title="Изменить">
-                                <i class="fas fa-edit"></i>
+                            <i class="fas fa-bullseye metric-icon purple" aria-hidden="true" aria-label="Иконка цели сбережений"></i>
+                            <button class="edit-btn" onclick="openEditModal('savings')" title="Изменить" aria-label="Изменить цель сбережений">
+                                <i class="fas fa-edit" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
@@ -231,7 +231,7 @@
                 <div class="chart-card">
                     <h3 class="chart-title">Расходы по категориям</h3>
                     <div class="chart-container">
-                        <canvas id="pieChart"></canvas>
+                        <canvas id="pieChart" aria-label="График расходов по категориям" role="img"></canvas>
                     </div>
                     <div class="chart-legend">
                         <div class="legend-item">
@@ -257,7 +257,7 @@
                 <div class="chart-card">
                     <h3 class="chart-title">Динамика за 6 месяцев</h3>
                     <div class="chart-container">
-                        <canvas id="lineChart"></canvas>
+                        <canvas id="lineChart" aria-label="График динамики доходов и расходов за 6 месяцев" role="img"></canvas>
                     </div>
                     <div class="chart-legend">
                         <div class="legend-item">
@@ -279,8 +279,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="editModalTitle">Изменить значение</h2>
-                <button class="modal-close" onclick="closeEditModal()">
-                    <i class="fas fa-times"></i>
+                <button class="modal-close" onclick="closeEditModal()" aria-label="Закрыть модальное окно">
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="modal-body">
