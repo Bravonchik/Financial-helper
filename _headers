@@ -1,0 +1,31 @@
+# Netlify Headers для оптимизации кеширования
+# Этот файл автоматически применяется Netlify для всех запросов
+
+# Кеширование статических ресурсов
+/styles.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/script.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML файлы - короткое кеширование
+/*.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Предзагрузка критических ресурсов
+/
+  Link: </styles.css>; rel=preload; as=style
+  Link: </script.js>; rel=preload; as=script
+
