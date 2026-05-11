@@ -6,6 +6,14 @@
     align-items: flex-start;
     margin-bottom: 2rem;
     gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 /* Секция фильтров */
@@ -380,6 +388,16 @@
 @media (max-width: 768px) {
     .page-header-transactions {
         flex-direction: column;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .header-actions .btn {
+        flex: 1;
+        justify-content: center;
+        min-width: 120px;
     }
 
     .filters-content {

@@ -52,10 +52,26 @@
                     <h1 class="page-title">Транзакции</h1>
                     <p class="page-subtitle">Все операции по вашему счёту</p>
                 </div>
-                <button class="btn btn-primary" onclick="openAddTransactionModal()">
-                    <i class="fas fa-plus"></i>
-                    <span>Добавить транзакцию</span>
-                </button>
+                <div class="header-actions">
+                    <button class="btn btn-outline" onclick="downloadSampleCSV()" title="Скачать пример CSV">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Пример CSV</span>
+                    </button>
+                    <button class="btn btn-outline" onclick="document.getElementById('csvFileInput').click()" title="Импорт из CSV">
+                        <i class="fas fa-file-import"></i>
+                        <span>Импорт CSV</span>
+                    </button>
+                    <button class="btn btn-success" onclick="exportCSV()" title="Экспорт в CSV">
+                        <i class="fas fa-file-export"></i>
+                        <span>Экспорт CSV</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="openAddTransactionModal()">
+                        <i class="fas fa-plus"></i>
+                        <span>Добавить</span>
+                    </button>
+                    <!-- Скрытый input для выбора CSV-файла -->
+                    <input type="file" id="csvFileInput" accept=".csv" style="display:none">
+                </div>
             </div>
 
             <!-- Фильтры -->
@@ -67,9 +83,9 @@
                 <div class="filters-content">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Поиск по описанию..." class="search-input">
+                        <input type="text" id="searchInput" placeholder="Поиск по описанию..." class="search-input">
                     </div>
-                    <select class="filter-select">
+                    <select id="categoryFilter" class="filter-select">
                         <option>Все категории</option>
                         <option>Продукты</option>
                         <option>Транспорт</option>
@@ -79,16 +95,13 @@
                         <option>Зарплата</option>
                         <option>Фриланс</option>
                     </select>
-                    <select class="filter-select">
+                    <select id="typeFilter" class="filter-select">
                         <option>Все операции</option>
                         <option>Доход</option>
                         <option>Расход</option>
                     </select>
-                    <select class="filter-select">
-                        <option>Месяц</option>
-                        <option>Ноябрь 2025</option>
-                        <option>Октябрь 2025</option>
-                        <option>Сентябрь 2025</option>
+                    <select id="monthFilter" class="filter-select">
+                        <option value="">Все месяцы</option>
                     </select>
                 </div>
             </div>
@@ -107,93 +120,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>01.11.2025</td>
-                            <td><span class="category-badge blue">Продукты</span></td>
-                            <td>Супермаркет Пятёрочка</td>
-                            <td><span class="type-badge expense">Расход</span></td>
-                            <td class="amount negative">-3 200 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(1); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>01.11.2025</td>
-                            <td><span class="category-badge green">Зарплата</span></td>
-                            <td>Основная работа</td>
-                            <td><span class="type-badge income">Доход</span></td>
-                            <td class="amount positive">+150 000 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(2); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>31.10.2025</td>
-                            <td><span class="category-badge orange">Транспорт</span></td>
-                            <td>Метро</td>
-                            <td><span class="type-badge expense">Расход</span></td>
-                            <td class="amount negative">-500 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(3); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>31.10.2025</td>
-                            <td><span class="category-badge purple">Развлечения</span></td>
-                            <td>Кинотеатр</td>
-                            <td><span class="type-badge expense">Расход</span></td>
-                            <td class="amount negative">-1 200 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(4); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>30.10.2025</td>
-                            <td><span class="category-badge teal">Коммунальные</span></td>
-                            <td>Оплата электричества</td>
-                            <td><span class="type-badge expense">Расход</span></td>
-                            <td class="amount negative">-2 800 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(5); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>29.10.2025</td>
-                            <td><span class="category-badge green">Фриланс</span></td>
-                            <td>Проект веб-дизайна</td>
-                            <td><span class="type-badge income">Доход</span></td>
-                            <td class="amount positive">+35 000 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(6); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>28.10.2025</td>
-                            <td><span class="category-badge blue">Продукты</span></td>
-                            <td>Продуктовый магазин</td>
-                            <td><span class="type-badge expense">Расход</span></td>
-                            <td class="amount negative">-4 500 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(7); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>27.10.2025</td>
-                            <td><span class="category-badge orange">Транспорт</span></td>
-                            <td>Такси</td>
-                            <td><span class="type-badge expense">Расход</span></td>
-                            <td class="amount negative">-850 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(8); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>26.10.2025</td>
-                            <td><span class="category-badge purple">Развлечения</span></td>
-                            <td>Ресторан</td>
-                            <td><span class="type-badge expense">Расход</span></td>
-                            <td class="amount negative">-3 200 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(9); return false;">Изменить</a></td>
-                        </tr>
-                        <tr>
-                            <td>25.10.2025</td>
-                            <td><span class="category-badge pink">Здоровье</span></td>
-                            <td>Аптека</td>
-                            <td><span class="type-badge expense">Расход</span></td>
-                            <td class="amount negative">-1 400 Р</td>
-                            <td><a href="#" class="action-link" onclick="editTransaction(10); return false;">Изменить</a></td>
-                        </tr>
+                        <!-- Заполняется из JavaScript -->
                     </tbody>
                 </table>
             </div>
         </div>
     </main>
 
-    <!-- Модальное окно добавления транзакции -->
+    <!-- Модальное окно добавления / редактирования транзакции -->
     <div id="transactionModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -229,6 +163,7 @@
                             <option>Здоровье</option>
                             <option>Зарплата</option>
                             <option>Фриланс</option>
+                            <option>Прочее</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -237,15 +172,17 @@
                     </div>
                     <div class="form-group">
                         <label>Сумма (Р)</label>
-                        <input type="number" class="form-input" id="transactionAmount" placeholder="0" required>
+                        <input type="number" class="form-input" id="transactionAmount" placeholder="0" min="1" required>
                     </div>
                     <div class="form-group">
                         <label>Дата</label>
                         <input type="date" class="form-input" id="transactionDate" required>
                     </div>
-                    <div class="modal-actions" id="transactionModalActions">
+                    <div class="modal-actions">
                         <button type="button" class="btn btn-secondary" onclick="closeModal('transactionModal')">Отмена</button>
-                        <button type="button" class="btn btn-danger" id="deleteTransactionBtn" style="display: none;" onclick="deleteCurrentTransaction()">Удалить</button>
+                        <button type="button" class="btn btn-danger" id="deleteTransactionBtn" style="display:none;" onclick="deleteCurrentTransaction()">
+                            <i class="fas fa-trash"></i> Удалить
+                        </button>
                         <button type="submit" class="btn btn-primary" id="transactionSubmitBtn">Добавить</button>
                     </div>
                 </form>
@@ -256,4 +193,3 @@
     <script src="transactions.js"></script>
 </body>
 </html>
-
