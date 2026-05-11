@@ -1,6 +1,69 @@
 // Функции для страницы профиля
 
+// ──────────────────────────────────────────────
+// Toast-уведомления
+// ──────────────────────────────────────────────
+function showToast(message, type = 'success') {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        document.body.appendChild(container);
+    }
+    const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle' };
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<i class="fas fa-${icons[type] || icons.success}"></i><span>${message}</span>`;
+    container.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('toast-show'));
+    setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// ──────────────────────────────────────────────
+// Тема оформления
+// ──────────────────────────────────────────────
+function applyTheme(theme) {
+    if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+    }
+    localStorage.setItem('theme', theme === 'dark' ? 'dark' : 'light');
+}
+
+function initThemeSelect() {
+    const themeSelect = document.querySelector('select.form-input option[value]')?.parentElement;
+    // Ищем select по тексту опций
+    document.querySelectorAll('.form-input').forEach(el => {
+        if (el.tagName === 'SELECT') {
+            const opts = Array.from(el.options).map(o => o.text);
+            if (opts.includes('Тёмная') || opts.includes('Светлая')) {
+                const saved = localStorage.getItem('theme') || 'light';
+                if (saved === 'dark') el.value = 'Тёмная';
+                else el.value = 'Светлая';
+
+                el.addEventListener('change', function() {
+                    const val = this.value;
+                    if (val === 'Тёмная') applyTheme('dark');
+                    else if (val === 'Светлая') applyTheme('light');
+                    else {
+                        // Автоматическая — по системной теме
+                        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        applyTheme(prefersDark ? 'dark' : 'light');
+                    }
+                    showToast('Тема изменена', 'success');
+                });
+            }
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    initThemeSelect();
+
     // Обработка загрузки фото
     const photoEditBtn = document.querySelector('.photo-edit-btn');
     const uploadBtn = document.querySelector('.btn-outline');
@@ -35,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             
             localStorage.setItem('profileData', JSON.stringify(formData));
-            alert('Изменения успешно сохранены!');
+            showToast('Изменения успешно сохранены', 'success');
         });
     }
 
@@ -112,7 +175,7 @@ function saveSettings() {
         notifGoals: document.getElementById('notifGoals').checked
     };
     localStorage.setItem('userSettings', JSON.stringify(settings));
-    alert('Настройки сохранены!');
+    showToast('Настройки сохранены', 'success');
 }
 
 // Загрузка настроек
@@ -143,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (changePasswordForm) {
         changePasswordForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Пароль успешно изменен!');
+            showToast('Пароль успешно изменён', 'success');
             changePasswordForm.reset();
         });
     }
@@ -161,7 +224,7 @@ function triggerFileUpload() {
         const file = e.target.files[0];
         if (file) {
             if (file.size > 5 * 1024 * 1024) {
-                alert('Размер файла не должен превышать 5 МБ');
+                showToast('Размер файла не должен превышать 5 МБ', 'error');
                 return;
             }
             const reader = new FileReader();

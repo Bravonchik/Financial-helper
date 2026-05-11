@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Отчёты - Финансовый помощник</title>
+    <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="reports.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,31 +20,15 @@
                 <span class="logo-text">Финансовый помощник</span>
             </div>
             <div class="nav-menu">
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-home"></i>
-                    <span>Главная</span>
-                </a>
-                <a href="transactions.html" class="nav-link">
-                    <i class="fas fa-list"></i>
-                    <span>Транзакции</span>
-                </a>
-                <a href="budget.html" class="nav-link">
-                    <i class="fas fa-chart-pie"></i>
-                    <span>Бюджет</span>
-                </a>
-                <a href="reports.html" class="nav-link active">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Отчёты</span>
-                </a>
-                <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i>
-                    <span>Профиль</span>
-                </a>
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Главная</span></a>
+                <a href="transactions.html" class="nav-link"><i class="fas fa-list"></i><span>Транзакции</span></a>
+                <a href="budget.html" class="nav-link"><i class="fas fa-chart-pie"></i><span>Бюджет</span></a>
+                <a href="reports.html" class="nav-link active"><i class="fas fa-chart-bar"></i><span>Отчёты</span></a>
+                <a href="profile.html" class="nav-link"><i class="fas fa-user"></i><span>Профиль</span></a>
             </div>
         </div>
     </nav>
 
-    <!-- Основной контент -->
     <main class="main-content">
         <div class="container">
             <!-- Заголовок -->
@@ -55,13 +40,13 @@
             <!-- Панель управления периодом -->
             <div class="period-control">
                 <label>Период:</label>
-                <select class="period-select">
-                    <option>Последние 6 месяцев</option>
-                    <option>Последние 3 месяца</option>
-                    <option>Последний год</option>
-                    <option>Текущий месяц</option>
+                <select class="period-select" id="periodSelect">
+                    <option value="6">Последние 6 месяцев</option>
+                    <option value="3">Последние 3 месяца</option>
+                    <option value="12">Последний год</option>
+                    <option value="1">Текущий месяц</option>
                 </select>
-                <button class="btn btn-primary">Применить</button>
+                <button class="btn btn-primary" onclick="applyPeriod()">Применить</button>
             </div>
 
             <!-- Карточки метрик -->
@@ -72,8 +57,8 @@
                     </div>
                     <div class="metric-content">
                         <h3>Всего доходов</h3>
-                        <div class="metric-value green">900 000 Р</div>
-                        <p class="metric-period">За 6 месяцев</p>
+                        <div class="metric-value green" id="totalIncomeValue">—</div>
+                        <p class="metric-period" id="totalIncomePeriod">За 6 месяцев</p>
                     </div>
                 </div>
 
@@ -83,8 +68,8 @@
                     </div>
                     <div class="metric-content">
                         <h3>Всего расходов</h3>
-                        <div class="metric-value red">616 000 Р</div>
-                        <p class="metric-period">За 6 месяцев</p>
+                        <div class="metric-value red" id="totalExpenseValue">—</div>
+                        <p class="metric-period" id="totalExpensePeriod">За 6 месяцев</p>
                     </div>
                 </div>
 
@@ -94,33 +79,32 @@
                     </div>
                     <div class="metric-content">
                         <h3>Средний расход</h3>
-                        <div class="metric-value blue">102 667 Р</div>
+                        <div class="metric-value blue" id="avgExpenseValue">—</div>
                         <p class="metric-period">В месяц</p>
                     </div>
                 </div>
 
                 <div class="report-metric-card">
                     <div class="metric-icon-wrapper purple">
-                        <i class="fas fa-arrow-trend-up"></i>
+                        <i class="fas fa-piggy-bank"></i>
                     </div>
                     <div class="metric-content">
                         <h3>Сбережения</h3>
-                        <div class="metric-value purple">284 000 Р</div>
-                        <p class="metric-period">За 6 месяцев</p>
+                        <div class="metric-value purple" id="savingsValue">—</div>
+                        <p class="metric-period" id="savingsPeriod">За 6 месяцев</p>
                     </div>
                 </div>
             </div>
 
             <!-- Вкладки -->
             <div class="tabs">
-                <button class="tab-button active" onclick="switchTab('dynamics')">Динамика</button>
-                <button class="tab-button" onclick="switchTab('categories')">По категориям</button>
-                <button class="tab-button" onclick="switchTab('comparison')">Сравнение</button>
+                <button class="tab-button active" onclick="switchTab('dynamics', this)">Динамика</button>
+                <button class="tab-button" onclick="switchTab('categories', this)">По категориям</button>
+                <button class="tab-button" onclick="switchTab('comparison', this)">Сравнение</button>
             </div>
 
             <!-- Контент вкладок -->
             <div class="tab-content">
-                <!-- Вкладка Динамика -->
                 <div id="dynamics-tab" class="tab-panel active">
                     <div class="chart-card-large">
                         <h3 class="chart-title">Доходы и расходы по месяцам</h3>
@@ -130,7 +114,6 @@
                     </div>
                 </div>
 
-                <!-- Вкладка По категориям -->
                 <div id="categories-tab" class="tab-panel">
                     <div class="chart-card-large">
                         <h3 class="chart-title">Расходы по категориям</h3>
@@ -140,7 +123,6 @@
                     </div>
                 </div>
 
-                <!-- Вкладка Сравнение -->
                 <div id="comparison-tab" class="tab-panel">
                     <div class="chart-card-large">
                         <h3 class="chart-title">Сравнение периодов</h3>
@@ -157,4 +139,3 @@
     <script src="reports.js"></script>
 </body>
 </html>
-

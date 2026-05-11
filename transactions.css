@@ -385,6 +385,45 @@
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 
+/* ══════════════════════════════
+   Тёмная тема — страница транзакций
+   ══════════════════════════════ */
+[data-theme="dark"] .filters-section { background: #1e293b; }
+[data-theme="dark"] .filters-header  { color: #e2e8f0; }
+
+[data-theme="dark"] .search-input {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+[data-theme="dark"] .search-input::placeholder { color: #64748b; }
+[data-theme="dark"] .search-box i { color: #64748b; }
+
+[data-theme="dark"] .filter-select {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .transactions-table-container { background: #1e293b; }
+[data-theme="dark"] .transactions-table thead { background: #0f172a; }
+[data-theme="dark"] .transactions-table th  { color: #e2e8f0; border-bottom-color: #334155; }
+[data-theme="dark"] .transactions-table td  { border-bottom-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .transactions-table tbody tr:hover { background: #334155; }
+
+[data-theme="dark"] .modal-content { background: #1e293b; }
+[data-theme="dark"] .modal-header   { border-bottom-color: #334155; }
+[data-theme="dark"] .modal-header h2 { color: #f1f5f9; }
+[data-theme="dark"] .modal-actions  { border-top-color: #334155; }
+[data-theme="dark"] .form-input     { background: #0f172a; border-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .form-group label { color: #e2e8f0; }
+
+[data-theme="dark"] .radio-label { border-color: #334155; }
+[data-theme="dark"] .radio-label:has(input:checked) { border-color: #667eea; background: #1e3a5f; }
+
+[data-theme="dark"] .empty-table-row td { color: #64748b; }
+[data-theme="dark"] .empty-table-row i  { color: #334155; }
+
 @media (max-width: 768px) {
     .page-header-transactions {
         flex-direction: column;

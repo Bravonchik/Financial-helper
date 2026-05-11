@@ -338,6 +338,34 @@
     margin-bottom: 1.5rem;
 }
 
+/* ══════════════════════════════
+   Тёмная тема — страница бюджета
+   ══════════════════════════════ */
+[data-theme="dark"] .budget-summary-card { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .summary-header h3   { color: #94a3b8; }
+[data-theme="dark"] .summary-value       { color: #f1f5f9; }
+[data-theme="dark"] .summary-description { color: #94a3b8; }
+
+[data-theme="dark"] .progress-card  { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .progress-title { color: #f1f5f9; }
+[data-theme="dark"] .progress-subtitle { color: #94a3b8; }
+[data-theme="dark"] .progress-bar-large { background: #334155; }
+[data-theme="dark"] .progress-labels    { color: #94a3b8; }
+[data-theme="dark"] .progress-percent   { color: #e2e8f0; }
+
+[data-theme="dark"] .alert-card { background: #2d1f0a; border-color: #92400e; }
+[data-theme="dark"] .alert-card h4, [data-theme="dark"] .alert-card p { color: #fbbf24; }
+
+[data-theme="dark"] .category-card { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .category-card.warning { background: #2d1515; border-color: #7f1d1d; }
+[data-theme="dark"] .category-header h3 { color: #f1f5f9; }
+[data-theme="dark"] .category-budget    { color: #94a3b8; }
+[data-theme="dark"] .category-progress-bar { background: #334155; }
+[data-theme="dark"] .category-actions  { border-top-color: #334155; }
+[data-theme="dark"] .modal-subtitle    { color: #94a3b8; }
+
+[data-theme="dark"] .color-option.active { border-color: #f1f5f9; box-shadow: 0 0 0 2px #1e293b, 0 0 0 4px #f1f5f9; }
+
 @media (max-width: 768px) {
     .page-header-budget {
         flex-direction: column;

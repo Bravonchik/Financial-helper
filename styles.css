@@ -502,6 +502,66 @@ body {
     border-top: 1px solid #e5e7eb;
 }
 
+/* ══════════════════════════════════════
+   Тёмная тема — глобальные переопределения
+   ══════════════════════════════════════ */
+[data-theme="dark"] body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .navbar {
+    background-color: #1e293b;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+[data-theme="dark"] .logo-text { color: #f1f5f9; }
+
+[data-theme="dark"] .nav-link { color: #94a3b8; }
+[data-theme="dark"] .nav-link:hover { background-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .nav-link.active { background-color: #667eea; color: white; }
+
+[data-theme="dark"] .page-title  { color: #f1f5f9; }
+[data-theme="dark"] .page-subtitle { color: #94a3b8; }
+
+[data-theme="dark"] .metric-card { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .metric-card.income  { background: linear-gradient(135deg,#0c2340 0%,#0c2d50 100%); }
+[data-theme="dark"] .metric-card.expense { background: linear-gradient(135deg,#2d1515 0%,#3d1a1a 100%); }
+[data-theme="dark"] .metric-title  { color: #94a3b8; }
+[data-theme="dark"] .metric-value  { color: #f1f5f9; }
+[data-theme="dark"] .edit-btn { color: #64748b; }
+[data-theme="dark"] .edit-btn:hover { background: #334155; color: #818cf8; }
+
+[data-theme="dark"] .chart-card { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .chart-title { color: #f1f5f9; }
+[data-theme="dark"] .legend-item span { color: #94a3b8; }
+
+[data-theme="dark"] .btn-secondary { background: #334155; color: #e2e8f0; border-color: #475569; }
+[data-theme="dark"] .btn-secondary:hover { background: #475569; border-color: #64748b; }
+[data-theme="dark"] .btn-outline { background: #1e293b; border-color: #818cf8; color: #818cf8; }
+[data-theme="dark"] .btn-outline:hover { background: #818cf8; color: white; }
+
+[data-theme="dark"] .modal-content { background: #1e293b; }
+[data-theme="dark"] .modal-header { border-bottom-color: #334155; }
+[data-theme="dark"] .modal-header h2 { color: #f1f5f9; }
+[data-theme="dark"] .modal-close { color: #64748b; }
+[data-theme="dark"] .modal-close:hover { background: #334155; color: #e2e8f0; }
+[data-theme="dark"] .modal-actions { border-top-color: #334155; }
+
+[data-theme="dark"] .form-input {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+[data-theme="dark"] .form-input:focus {
+    border-color: #667eea;
+    background: #0f172a;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+}
+[data-theme="dark"] .form-group label { color: #e2e8f0; }
+
+[data-theme="dark"] .progress-bar-container { background-color: #334155; }
+
 /* Toast-уведомления */
 #toast-container {
     position: fixed;

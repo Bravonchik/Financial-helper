@@ -195,6 +195,29 @@
     margin-top: 1rem;
 }
 
+/* ══════════════════════════════
+   Тёмная тема — страница отчётов
+   ══════════════════════════════ */
+[data-theme="dark"] .period-control { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .period-control label { color: #e2e8f0; }
+[data-theme="dark"] .period-select {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .report-metric-card { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .metric-content h3  { color: #94a3b8; }
+[data-theme="dark"] .metric-period      { color: #94a3b8; }
+
+[data-theme="dark"] .tabs { border-bottom-color: #334155; }
+[data-theme="dark"] .tab-button { color: #94a3b8; }
+[data-theme="dark"] .tab-button:hover { background: #334155; color: #e2e8f0; }
+[data-theme="dark"] .tab-button.active { color: #818cf8; border-bottom-color: #818cf8; }
+
+[data-theme="dark"] .chart-card-large { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .chart-title { color: #f1f5f9; }
+
 @media (max-width: 768px) {
     .period-control {
         flex-direction: column;

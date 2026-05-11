@@ -95,6 +95,8 @@
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://mc.yandex.ru">
     
+    <!-- Инициализация темы (до рендера, чтобы не было мигания) -->
+    <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
     <!-- Стили -->
     <link rel="stylesheet" href="styles.css">
     <!-- Асинхронная загрузка Font Awesome для улучшения производительности -->
