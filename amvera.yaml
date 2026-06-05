@@ -1,0 +1,10 @@
+meta:
+  environment: nodejs
+  toolVersion: "20"
+
+build:
+  installDependencies: true
+
+run:
+  persistenceMount: /data
+  withoutPersistenceMount: true
