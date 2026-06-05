@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Цели накоплений - Финансовый помощник</title>
+    <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="goals.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon"><i class="fas fa-wallet"></i></div>
+                <span class="logo-text">Финансовый помощник</span>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Открыть меню"><i class="fas fa-bars"></i></button>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i><span>Главная</span></a>
+                <a href="transactions.html" class="nav-link"><i class="fas fa-list"></i><span>Транзакции</span></a>
+                <a href="budget.html" class="nav-link"><i class="fas fa-chart-pie"></i><span>Бюджет</span></a>
+                <a href="reports.html" class="nav-link"><i class="fas fa-chart-bar"></i><span>Отчёты</span></a>
+                <a href="goals.html" class="nav-link active"><i class="fas fa-bullseye"></i><span>Цели</span></a>
+                <a href="profile.html" class="nav-link"><i class="fas fa-user"></i><span>Профиль</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Заголовок -->
+            <div class="goals-page-header">
+                <div>
+                    <h1 class="page-title">Цели накоплений</h1>
+                    <p class="page-subtitle">Откладывайте на мечту шаг за шагом</p>
+                </div>
+                <button class="btn btn-primary" onclick="openGoalModal()">
+                    <i class="fas fa-plus"></i>
+                    <span>Новая цель</span>
+                </button>
+            </div>
+
+            <!-- Сетка целей -->
+            <div class="goals-grid" id="goalsGrid">
+                <!-- Заполняется из JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Модал: добавить / редактировать цель -->
+    <div id="goalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="goalModalTitle">Новая цель</h2>
+                <button class="modal-close" onclick="closeGoalModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="goalForm">
+                    <div class="form-group">
+                        <label>Название цели</label>
+                        <input type="text" class="form-input" id="goalName" placeholder="Например: Новый телефон" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Целевая сумма (Р)</label>
+                        <input type="number" class="form-input" id="goalTarget" placeholder="0" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Уже накоплено (Р)</label>
+                        <input type="number" class="form-input" id="goalSaved" placeholder="0" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Иконка</label>
+                        <div class="icon-selector" id="iconSelector"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Цвет</label>
+                        <div class="color-picker-goals" id="colorPickerGoals"></div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeGoalModal()">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модал: пополнить цель -->
+    <div id="addFundsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Пополнить цель</h2>
+                <button class="modal-close" onclick="closeAddFundsModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="addFundsForm">
+                    <input type="hidden" id="addFundsGoalId">
+                    <p style="margin-bottom:1rem;color:#666">Цель: <strong id="addFundsGoalName"></strong></p>
+                    <div class="form-group">
+                        <label>Сумма пополнения (Р)</label>
+                        <input type="number" class="form-input" id="addFundsAmount" placeholder="0" min="1" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeAddFundsModal()">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Пополнить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="i18n.js"></script>
+    <script src="auth.js"></script>
+    <script src="common.js"></script>
+    <script src="goals.js"></script>
+</body>
+</html>
+

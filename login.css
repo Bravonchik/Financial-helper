@@ -1,0 +1,316 @@
+/* Страница входа */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1rem;
+}
+
+.login-card {
+    background: white;
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 360px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    animation: loginAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes loginAppear {
+    from { opacity: 0; transform: translateY(24px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.login-logo {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+    font-size: 2rem;
+    color: white;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+.login-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.4rem;
+}
+
+.login-subtitle {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 2rem;
+}
+
+/* PIN-точки */
+.pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.pin-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    transition: all 0.2s ease;
+}
+
+.pin-dot.filled {
+    background: #667eea;
+    border-color: #667eea;
+    transform: scale(1.15);
+}
+
+.pin-dot.error {
+    background: #ef4444;
+    border-color: #ef4444;
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-6px); }
+    40%       { transform: translateX(6px); }
+    60%       { transform: translateX(-4px); }
+    80%       { transform: translateX(4px); }
+}
+
+/* PIN-клавиатура */
+.pin-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.pin-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 1rem 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.pin-btn:hover {
+    background: #eef2ff;
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.pin-btn:active {
+    transform: scale(0.93);
+    background: #e0e7ff;
+}
+
+.pin-btn.delete {
+    font-size: 1.2rem;
+    color: #64748b;
+}
+
+.pin-btn.delete:hover {
+    color: #ef4444;
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
+.pin-btn.zero {
+    grid-column: 2;
+}
+
+.pin-error-msg {
+    color: #ef4444;
+    font-size: 0.9rem;
+    min-height: 1.2em;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.login-footer {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-top: 1.25rem;
+    text-align: center;
+}
+
+.login-link {
+    color: #667eea;
+    font-weight: 600;
+    text-decoration: none;
+}
+.login-link:hover { text-decoration: underline; }
+
+/* Форма логина */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.login-field {
+    text-align: left;
+}
+
+.login-field label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #475569;
+    margin-bottom: 0.4rem;
+}
+
+.login-field label i {
+    margin-right: 0.3rem;
+    color: #667eea;
+}
+
+.login-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: #f8fafc;
+    color: #1a1a1a;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.login-input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper .login-input {
+    padding-right: 2.8rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.toggle-password:hover { color: #667eea; }
+
+.login-error {
+    color: #ef4444;
+    font-size: 0.88rem;
+    min-height: 1.2em;
+    text-align: left;
+    margin: -0.25rem 0;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 0.85rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 0.25rem;
+}
+
+.login-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Тёмная тема — форма */
+[data-theme="dark"] .login-field label { color: #94a3b8; }
+[data-theme="dark"] .login-input {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+[data-theme="dark"] .login-input:focus {
+    background: #0f172a;
+    border-color: #667eea;
+}
+
+/* ── Тёмная тема ── */
+[data-theme="dark"] .login-card {
+    background: #1e293b;
+}
+[data-theme="dark"] .login-title { color: #f1f5f9; }
+[data-theme="dark"] .login-subtitle { color: #94a3b8; }
+[data-theme="dark"] .pin-dot { border-color: #334155; }
+[data-theme="dark"] .pin-btn {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+[data-theme="dark"] .pin-btn:hover {
+    background: #1e3a5f;
+    border-color: #667eea;
+    color: #818cf8;
+}
+[data-theme="dark"] .pin-btn:active { background: #1e3a5f; }
+[data-theme="dark"] .login-footer { color: #475569; }
+
+/* ══════════════════════════════════════
+   Адаптив
+   ══════════════════════════════════════ */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 2rem 1.25rem;
+        border-radius: 16px;
+    }
+
+    .login-title { font-size: 1.35rem; }
+
+    .pin-btn {
+        padding: 0.8rem 0;
+        font-size: 1.25rem;
+        border-radius: 10px;
+    }
+
+    .pin-pad { gap: 0.5rem; }
+
+    .login-logo {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+    }
+}

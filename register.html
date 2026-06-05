@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация - Финансовый помощник</title>
+  <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="login-page">
+
+  <div class="login-card">
+    <div class="login-logo">
+      <i class="fas fa-wallet"></i>
+    </div>
+    <h1 class="login-title">Создать аккаунт</h1>
+    <p class="login-subtitle">Начните управлять финансами</p>
+
+    <form class="login-form" id="registerForm">
+      <div class="login-field">
+        <label><i class="fas fa-user"></i> Имя пользователя</label>
+        <input type="text" id="regUsername" class="login-input"
+               placeholder="Минимум 3 символа" autocomplete="username" required>
+      </div>
+      <div class="login-field">
+        <label><i class="fas fa-lock"></i> Пароль</label>
+        <div class="password-wrapper">
+          <input type="password" id="regPassword" class="login-input"
+                 placeholder="Минимум 6 символов" autocomplete="new-password" required>
+          <button type="button" class="toggle-password" onclick="togglePassword('regPassword', this)">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+      <div class="login-field">
+        <label><i class="fas fa-lock"></i> Подтвердите пароль</label>
+        <div class="password-wrapper">
+          <input type="password" id="regPassword2" class="login-input"
+                 placeholder="Повторите пароль" autocomplete="new-password" required>
+          <button type="button" class="toggle-password" onclick="togglePassword('regPassword2', this)">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <p class="login-error" id="regError"></p>
+
+      <button type="submit" class="login-btn" id="regBtn">
+        <i class="fas fa-user-plus"></i> Зарегистрироваться
+      </button>
+    </form>
+
+    <p class="login-footer">
+      Уже есть аккаунт?
+      <a href="login.html" class="login-link">Войти</a>
+    </p>
+  </div>
+
+  <script src="api.js"></script>
+    <script src="i18n.js"></script>
+  <script>
+    if (localStorage.getItem('authToken')) location.replace('index.html');
+
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn      = document.getElementById('regBtn');
+      const errorEl  = document.getElementById('regError');
+      const username = document.getElementById('regUsername').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const password2= document.getElementById('regPassword2').value;
+
+      if (password !== password2) {
+        errorEl.textContent = 'Пароли не совпадают';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Создание аккаунта...';
+      errorEl.textContent = '';
+
+      try {
+        const data = await API.post('/auth/register', { username, password });
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('authUser',  JSON.stringify(data.user));
+        location.replace('index.html');
+      } catch (err) {
+        errorEl.textContent = err.message;
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-user-plus"></i> Зарегистрироваться';
+      }
+    });
+
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon  = btn.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+      }
+    }
+  </script>
+</body>
+</html>

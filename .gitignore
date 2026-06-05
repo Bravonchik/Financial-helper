@@ -25,12 +25,12 @@ $RECYCLE.BIN/
 .idea/
 *.sublime-project
 *.sublime-workspace
+.claude/
 
 # Node.js (если будет использоваться)
 node_modules/
 npm-debug.log
 yarn-error.log
-package-lock.json
 yarn.lock
 
 # Файлы окружения
@@ -43,4 +43,8 @@ yarn.lock
 # Backup файлы
 *.bak
 *.backup
+
+# База данных SQLite (локальная)
+*.db
+*.sqlite
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -95,6 +95,8 @@
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="https://mc.yandex.ru">
     
+    <!-- Инициализация темы (до рендера, чтобы не было мигания) -->
+    <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
     <!-- Стили -->
     <link rel="stylesheet" href="styles.css">
     <!-- Асинхронная загрузка Font Awesome для улучшения производительности -->
@@ -111,6 +113,7 @@
                 </div>
                 <span class="logo-text">Финансовый помощник</span>
             </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Открыть меню"><i class="fas fa-bars"></i></button>
             <div class="nav-menu">
                 <a href="index.html" class="nav-link active" aria-label="Главная страница">
                     <i class="fas fa-home" aria-hidden="true"></i>
@@ -127,6 +130,10 @@
                 <a href="reports.html" class="nav-link" aria-label="Страница отчётов">
                     <i class="fas fa-chart-bar" aria-hidden="true"></i>
                     <span>Отчёты</span>
+                </a>
+                <a href="goals.html" class="nav-link" aria-label="Страница целей">
+                    <i class="fas fa-bullseye" aria-hidden="true"></i>
+                    <span>Цели</span>
                 </a>
                 <a href="profile.html" class="nav-link" aria-label="Страница профиля">
                     <i class="fas fa-user" aria-hidden="true"></i>
@@ -145,6 +152,36 @@
                 <p class="page-subtitle">Обзор ваших финансов</p>
             </div>
 
+            <!-- Уведомления о бюджете -->
+            <div id="budgetAlerts"></div>
+
+            <!-- Виджет "До конца месяца" -->
+            <div class="month-widget" id="monthWidget" style="display:none">
+                <div class="month-widget-icon"><i class="fas fa-calendar-day"></i></div>
+                <div class="month-widget-body">
+                    <div class="month-widget-title">Дневной лимит расходов</div>
+                    <div class="month-widget-value" id="dailyLimitValue">—</div>
+                    <div class="month-widget-subtitle" id="dailyLimitNote" style="font-size:0.78rem;opacity:0.85;margin-top:2px;"></div>
+                </div>
+                <div class="month-widget-stats">
+                    <div class="month-stat">
+                        <span class="month-stat-label">Осталось дней</span>
+                        <span class="month-stat-value" id="daysLeftValue">—</span>
+                    </div>
+                    <div class="month-stat">
+                        <span class="month-stat-label">Остаток бюджета</span>
+                        <span class="month-stat-value" id="budgetLeftValue">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Предупреждение: лимиты > доход -->
+            <div id="budgetOverIncomeWarn" class="budget-over-income-warn" style="display:none">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span class="budget-warn-text"></span>
+                <a href="budget.html" class="budget-warn-link">Скорректировать лимиты</a>
+            </div>
+
             <!-- Карточки метрик -->
             <div class="metrics-grid">
                 <!-- Текущий баланс -->
@@ -158,10 +195,10 @@
                             </button>
                         </div>
                     </div>
-                    <div class="metric-value" id="balanceValue">52 000 Р</div>
-                    <div class="metric-trend positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span id="balanceTrend">+12% от прошлого месяца</span>
+                    <div class="metric-value" id="balanceValue"><span class="skeleton skeleton-val"></span></div>
+                    <div class="metric-trend neutral" id="balanceTrendWrapper">
+                        <i class="fas fa-minus"></i>
+                        <span id="balanceTrend"><span class="skeleton skeleton-trend"></span></span>
                     </div>
                 </div>
 
@@ -176,8 +213,11 @@
                             </button>
                         </div>
                     </div>
-                    <div class="metric-value" id="incomeValue">150 000 Р</div>
-                    <div class="metric-period">За текущий месяц</div>
+                    <div class="metric-value" id="incomeValue"><span class="skeleton skeleton-val"></span></div>
+                    <div class="metric-trend neutral" id="incomeTrend">
+                        <i class="fas fa-minus"></i>
+                        <span id="incomeTrendText"><span class="skeleton skeleton-trend"></span></span>
+                    </div>
                 </div>
 
                 <!-- Расходы -->
@@ -191,8 +231,11 @@
                             </button>
                         </div>
                     </div>
-                    <div class="metric-value" id="expenseValue">98 000 Р</div>
-                    <div class="metric-period">За текущий месяц</div>
+                    <div class="metric-value" id="expenseValue"><span class="skeleton skeleton-val"></span></div>
+                    <div class="metric-trend neutral" id="expenseTrend">
+                        <i class="fas fa-minus"></i>
+                        <span id="expenseTrendText"><span class="skeleton skeleton-trend"></span></span>
+                    </div>
                 </div>
 
                 <!-- Цель сбережений -->
@@ -206,7 +249,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="metric-value" id="savingsValue">320 000 Р</div>
+                    <div class="metric-value" id="savingsValue"><span class="skeleton skeleton-val"></span></div>
                     <div class="savings-progress">
                         <div class="progress-bar-container">
                             <div class="progress-bar purple" id="savingsProgressBar" style="width: 65%"></div>
@@ -221,7 +264,7 @@
 
             <!-- Кнопки действий -->
             <div class="action-buttons">
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" onclick="openQuickAddModal()">
                     <i class="fas fa-plus"></i>
                     <span>Добавить транзакцию</span>
                 </button>
@@ -284,6 +327,63 @@
         </div>
     </main>
 
+    <!-- Модал быстрого добавления транзакции -->
+    <div id="quickAddModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Быстрое добавление</h2>
+                <button class="modal-close" onclick="closeQuickAddModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="quickAddForm">
+                    <div class="form-group">
+                        <label>Тип операции</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="qaType" value="income" id="qaTypeIncome" checked>
+                                <span>Доход</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="qaType" value="expense" id="qaTypeExpense">
+                                <span>Расход</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Категория</label>
+                        <select class="form-input" id="qaCategory" required>
+                            <option value="">Выберите категорию</option>
+                            <option>Стипендия</option>
+                            <option>Подработка</option>
+                            <option>Продукты</option>
+                            <option>Транспорт</option>
+                            <option>Развлечения</option>
+                            <option>Связь</option>
+                            <option>Одежда</option>
+                            <option>Прочее</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <input type="text" class="form-input" id="qaDescription" placeholder="Введите описание" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Сумма (Р)</label>
+                        <input type="number" class="form-input" id="qaAmount" placeholder="0" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Дата</label>
+                        <input type="date" class="form-input" id="qaDate" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeQuickAddModal()">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Модальное окно редактирования метрик -->
     <div id="editMetricModal" class="modal">
         <div class="modal-content">
@@ -316,9 +416,14 @@
         </div>
     </div>
 
+    <script src="api.js"></script>
+    <script src="i18n.js"></script>
+    <script src="auth.js"></script>
     <!-- Отложенная загрузка Chart.js для улучшения производительности -->
+    <script src="common.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <script src="script.js" defer></script>
 </body>
 </html>
+
 

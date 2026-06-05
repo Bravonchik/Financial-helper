@@ -221,6 +221,10 @@ body {
     color: #ef4444;
 }
 
+.metric-trend.neutral {
+    color: #94a3b8;
+}
+
 .metric-period {
     font-size: 0.85rem;
     color: #666;
@@ -502,46 +506,552 @@ body {
     border-top: 1px solid #e5e7eb;
 }
 
+/* ══════════════════════════════════════
+   Тёмная тема — глобальные переопределения
+   ══════════════════════════════════════ */
+[data-theme="dark"] body {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .navbar {
+    background-color: #1e293b;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+[data-theme="dark"] .logo-text { color: #f1f5f9; }
+
+[data-theme="dark"] .nav-link { color: #94a3b8; }
+[data-theme="dark"] .nav-link:hover { background-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .nav-link.active { background-color: #667eea; color: white; }
+
+[data-theme="dark"] .page-title  { color: #f1f5f9; }
+[data-theme="dark"] .page-subtitle { color: #94a3b8; }
+
+[data-theme="dark"] .metric-card { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .metric-card.income  { background: linear-gradient(135deg,#0c2340 0%,#0c2d50 100%); }
+[data-theme="dark"] .metric-card.expense { background: linear-gradient(135deg,#2d1515 0%,#3d1a1a 100%); }
+[data-theme="dark"] .metric-title  { color: #94a3b8; }
+[data-theme="dark"] .metric-value  { color: #f1f5f9; }
+[data-theme="dark"] .edit-btn { color: #64748b; }
+[data-theme="dark"] .edit-btn:hover { background: #334155; color: #818cf8; }
+
+[data-theme="dark"] .chart-card { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .chart-title { color: #f1f5f9; }
+[data-theme="dark"] .legend-item span { color: #94a3b8; }
+
+[data-theme="dark"] .btn-secondary { background: #334155; color: #e2e8f0; border-color: #475569; }
+[data-theme="dark"] .btn-secondary:hover { background: #475569; border-color: #64748b; }
+[data-theme="dark"] .btn-outline { background: #1e293b; border-color: #818cf8; color: #818cf8; }
+[data-theme="dark"] .btn-outline:hover { background: #818cf8; color: white; }
+
+[data-theme="dark"] .modal-content { background: #1e293b; }
+[data-theme="dark"] .modal-header { border-bottom-color: #334155; }
+[data-theme="dark"] .modal-header h2 { color: #f1f5f9; }
+[data-theme="dark"] .modal-close { color: #64748b; }
+[data-theme="dark"] .modal-close:hover { background: #334155; color: #e2e8f0; }
+[data-theme="dark"] .modal-actions { border-top-color: #334155; }
+
+[data-theme="dark"] .form-input {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+[data-theme="dark"] .form-input:focus {
+    border-color: #667eea;
+    background: #0f172a;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+}
+[data-theme="dark"] .form-group label { color: #e2e8f0; }
+
+[data-theme="dark"] .progress-bar-container { background-color: #334155; }
+
+/* Toast-уведомления */
+#toast-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: 12px;
+    background: #1a1a1a;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    max-width: 360px;
+}
+
+.toast.toast-show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast.toast-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.toast.toast-error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.toast.toast-info {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.toast i {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+/* Кнопки импорта/экспорта */
+.btn-outline {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-outline:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Строка "нет данных" в таблице */
+.empty-table-row td {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #999;
+    font-size: 1rem;
+}
+
+.empty-table-row i {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    color: #d1d5db;
+}
+
+/* ══════════════════════════════════════
+   Мобильное меню (гамбургер)
+   ══════════════════════════════════════ */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #333;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+    line-height: 1;
+    align-items: center;
+}
+
+.nav-toggle:hover { background: #f3f4f6; }
+
+[data-theme="dark"] .nav-toggle { color: #e2e8f0; }
+[data-theme="dark"] .nav-toggle:hover { background: #334155; }
+
+/* ══════════════════════════════════════
+   Планшет (≤ 900px)
+   ══════════════════════════════════════ */
+@media (max-width: 900px) {
+    .charts-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════
+   Мобильный (≤ 768px)
+   ══════════════════════════════════════ */
 @media (max-width: 768px) {
+    /* Навигация */
     .nav-container {
+        flex-wrap: wrap;
+        gap: 0;
+        padding: 0.75rem 1rem;
+    }
+
+    .nav-logo { flex: 1; min-width: 0; }
+
+    .nav-toggle { display: flex; }
+
+    .nav-menu {
+        display: none;
         flex-direction: column;
+        width: 100%;
+        padding: 0.5rem 0 0.75rem;
+        gap: 0.25rem;
+        border-top: 1px solid #e5e7eb;
+        margin-top: 0.5rem;
+    }
+
+    .nav-menu.nav-open { display: flex; }
+
+    .nav-link {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        border-radius: 10px;
+        font-size: 0.95rem;
+    }
+
+    [data-theme="dark"] .nav-menu { border-top-color: #334155; }
+
+    /* Заголовки */
+    .page-title    { font-size: 1.7rem; }
+    .page-subtitle { font-size: 0.95rem; }
+
+    /* Карточки метрик — 2 колонки */
+    .metrics-grid {
+        grid-template-columns: 1fr 1fr;
         gap: 1rem;
     }
 
-    .nav-menu {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.5rem;
-    }
+    .metric-value { font-size: 1.5rem; }
 
-    .page-title {
-        font-size: 2rem;
-    }
+    /* Кнопки действий */
+    .action-buttons { flex-direction: column; gap: 0.5rem; }
+    .action-buttons .btn { width: 100%; justify-content: center; }
 
-    .metrics-grid {
-        grid-template-columns: 1fr;
-    }
+    /* Графики */
+    .charts-grid   { grid-template-columns: 1fr; }
+    .chart-card    { padding: 1rem; }
+    .chart-container { height: 220px; }
 
-    .charts-grid {
-        grid-template-columns: 1fr;
-    }
+    /* Модалки */
+    .modal-content { width: 95%; margin: 1rem; max-height: 95vh; }
+    .modal-actions { flex-wrap: wrap; gap: 0.5rem; }
+    .modal-actions .btn { flex: 1; min-width: 100px; justify-content: center; font-size: 0.9rem; }
 
-    .chart-container {
-        height: 250px;
-    }
+    /* Формы */
+    .radio-group { flex-wrap: wrap; gap: 0.5rem; }
 
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .modal-content {
-        width: 95%;
-        margin: 1rem;
-    }
+    /* Общее */
+    .container   { padding: 0 1rem; }
+    .main-content { padding: 1.25rem 0; }
 }
 
+/* ══════════════════════════════════════
+   Маленький телефон (≤ 480px)
+   ══════════════════════════════════════ */
+@media (max-width: 480px) {
+    .page-title  { font-size: 1.4rem; }
+    .metric-value { font-size: 1.3rem; }
+    .metric-card { padding: 1rem; }
+    .chart-container { height: 190px; }
+}
+
+/* ══════════════════════════════════════
+   Радио-кнопки (глобально)
+   ══════════════════════════════════════ */
+.radio-group { display: flex; gap: 1rem; }
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+}
+
+.radio-label:hover { background: #f9fafb; }
+
+.radio-label input[type="radio"] { margin: 0; accent-color: #667eea; }
+
+.radio-label:has(input[type="radio"]:checked) {
+    border-color: #667eea;
+    background: #f0f4ff;
+}
+
+.radio-label input[type="radio"]:checked + span {
+    color: #667eea;
+    font-weight: 600;
+}
+
+[data-theme="dark"] .radio-label { border-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .radio-label:hover { background: #334155; }
+[data-theme="dark"] .radio-label:has(input:checked) { border-color: #667eea; background: #1e3a5f; }
+
+/* ══════════════════════════════════════
+   Виджет "До конца месяца"
+   ══════════════════════════════════════ */
+.month-widget {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.month-widget-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.month-widget-body { flex: 1; min-width: 0; }
+
+.month-widget-title {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-bottom: 0.25rem;
+}
+
+.month-widget-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.month-widget-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.month-stat { text-align: center; }
+
+.month-stat-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    display: block;
+    margin-bottom: 0.2rem;
+}
+
+.month-stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .month-widget { gap: 1rem; padding: 1rem; }
+    .month-widget-value { font-size: 1.3rem; }
+    .month-widget-stats { gap: 1.25rem; }
+}
+
+/* ══════════════════════════════════════
+   Баннер предупреждений о бюджете
+   ══════════════════════════════════════ */
+.budget-alert-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.budget-alert-banner > i {
+    color: #f59e0b;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.budget-alert-content {
+    flex: 1;
+}
+
+.budget-alert-content strong {
+    color: #92400e;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.budget-alert-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.alert-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.alert-item.warning { background: #fde68a; color: #92400e; }
+.alert-item.danger  { background: #fee2e2; color: #b91c1c; }
+
+.budget-alert-close {
+    background: none;
+    border: none;
+    color: #92400e;
+    cursor: pointer;
+    padding: 0.2rem;
+    flex-shrink: 0;
+    opacity: 0.5;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+.budget-alert-close:hover { opacity: 1; }
+
+[data-theme="dark"] .budget-alert-banner { background: #2d1f0a; border-color: #92400e; }
+[data-theme="dark"] .budget-alert-content strong { color: #fbbf24; }
+[data-theme="dark"] .alert-item.warning { background: #78350f; color: #fef3c7; }
+[data-theme="dark"] .alert-item.danger  { background: #7f1d1d; color: #fee2e2; }
+[data-theme="dark"] .budget-alert-close { color: #fbbf24; }
+
+/* ══════════════════════════════════════
+   Анимация смены страниц
+   ══════════════════════════════════════ */
+@keyframes pageEnter {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pageExit {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-8px); }
+}
+
+.main-content {
+    animation: pageEnter 0.28s ease both;
+}
+
+body.page-exit .main-content {
+    animation: pageExit 0.2s ease forwards;
+}
+
+body.page-exit .navbar {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* ══════════════════════════════════════
+   Скелетон-экраны
+   ══════════════════════════════════════ */
+@keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton {
+    display: inline-block;
+    background: linear-gradient(90deg, #e5e7eb 25%, #f0f0f0 50%, #e5e7eb 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 6px;
+    color: transparent !important;
+    user-select: none;
+    pointer-events: none;
+}
+
+.skeleton-val {
+    height: 2rem;
+    width: 120px;
+    border-radius: 6px;
+    display: block;
+}
+
+.skeleton-trend {
+    height: 0.85rem;
+    width: 150px;
+    border-radius: 4px;
+    display: block;
+}
+
+.skeleton-cell {
+    height: 1rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+[data-theme="dark"] .skeleton {
+    background: linear-gradient(90deg, #334155 25%, #3e4f66 50%, #334155 75%);
+    background-size: 200% 100%;
+}
+
+
+/* Предупреждение: лимиты бюджета превышают доход */
+.budget-over-income-warn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #f59e0b;
+    border-radius: 10px;
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    color: #92400e;
+}
+.budget-over-income-warn i { color: #f59e0b; flex-shrink: 0; }
+.budget-warn-text { flex: 1; }
+.budget-warn-link {
+    white-space: nowrap;
+    color: #d97706;
+    font-weight: 600;
+    text-decoration: underline;
+}
+.budget-warn-link:hover { color: #b45309; }
+[data-theme="dark"] .budget-over-income-warn {
+    background: #2d1f0a;
+    border-color: #92400e;
+    color: #fbbf24;
+}
+[data-theme="dark"] .budget-warn-link { color: #fbbf24; }

@@ -1,190 +1,243 @@
-// Функции для работы с бюджетом
+// ──────────────────────────────────────────────
+// Toast-уведомления
+// ──────────────────────────────────────────────
+function showToast(message, type = 'success') {
+    let container = document.getElementById('toast-container');
+    if (!container) { container = document.createElement('div'); container.id = 'toast-container'; document.body.appendChild(container); }
+    const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle' };
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<i class="fas fa-${icons[type] || icons.success}"></i><span>${message}</span>`;
+    container.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('toast-show'));
+    setTimeout(() => { toast.classList.remove('toast-show'); setTimeout(() => toast.remove(), 300); }, 3000);
+}
 
-let selectedColor = '#3b82f6';
+function formatNumber(num) {
+    return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
 
+function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ──────────────────────────────────────────────
+// Состояние
+// ──────────────────────────────────────────────
+let _categories   = [];
+let _transactions = [];
+let addSelectedColor  = '#3b82f6';
+let editSelectedColor = '#3b82f6';
+let editingCatId = null;
+
+// ──────────────────────────────────────────────
+// Загрузка данных
+// ──────────────────────────────────────────────
+async function loadAllData() {
+    [_categories, _transactions] = await Promise.all([
+        API.get('/budgets'),
+        API.get('/transactions'),
+    ]);
+}
+
+// ──────────────────────────────────────────────
+// Расчёт расходов по категориям за текущий месяц
+// ──────────────────────────────────────────────
+function getSpentByCategory() {
+    const now = new Date();
+    const spent = {};
+    _transactions
+        .filter(t => {
+            const d = new Date(t.date);
+            return t.type === 'expense' && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+        })
+        .forEach(t => { spent[t.category] = (spent[t.category] || 0) + parseFloat(t.amount); });
+    return spent;
+}
+
+// ──────────────────────────────────────────────
+// Рендер карточки категории
+// ──────────────────────────────────────────────
+function renderCategoryCard(cat) {
+    const percent  = cat.budget > 0 ? Math.round(cat.spent / cat.budget * 100) : 0;
+    const isOver   = cat.spent > cat.budget;
+    const remaining = cat.budget - cat.spent;
+    const fillClass = isOver ? 'red' : percent > 80 ? 'orange' : 'green';
+    const amtClass  = isOver ? 'red' : 'green';
+
+    return `<div class="category-card${isOver ? ' warning' : ''}">
+        <div class="category-header">
+            <div class="category-icon" style="background:${cat.color}"></div>
+            <h3>${escHtml(cat.name)}</h3>
+        </div>
+        <div class="category-amount ${amtClass}">${formatNumber(cat.spent)} Р</div>
+        <div class="category-budget">из ${formatNumber(cat.budget)} Р</div>
+        <div class="category-progress-bar">
+            <div class="progress-fill ${fillClass}" style="width:${Math.min(percent,100)}%"></div>
+        </div>
+        <div class="category-footer">
+            <div class="category-status${isOver ? ' warning' : ''}">
+                <i class="fas fa-${isOver ? 'exclamation-triangle' : 'check-circle'}"></i>
+                <span>${isOver ? 'Превышение: '+formatNumber(Math.abs(remaining))+' Р' : 'Осталось: '+formatNumber(remaining)+' Р'}</span>
+            </div>
+            <div class="category-percent${isOver ? ' red' : ''}">${percent}%</div>
+        </div>
+        <div class="category-actions">
+            <button class="btn-cat-edit" onclick="openEditCategoryModal(${cat.id},'${escHtml(cat.name)}',${cat.budget},'${cat.color}')">
+                <i class="fas fa-pencil-alt"></i> Изменить лимит
+            </button>
+            <button class="btn-cat-delete" onclick="deleteCategory(${cat.id},'${escHtml(cat.name)}')">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </div>`;
+}
+
+// ──────────────────────────────────────────────
+// Полный рендер страницы бюджета
+// ──────────────────────────────────────────────
+function renderBudget() {
+    const spentMap = getSpentByCategory();
+    const cats = _categories.map(c => ({ ...c, spent: spentMap[c.name] || 0 }));
+
+    const totalBudget = cats.reduce((s,c) => s + c.budget, 0);
+    const totalSpent  = cats.reduce((s,c) => s + c.spent,  0);
+    const remaining   = totalBudget - totalSpent;
+    const percent     = totalBudget > 0 ? Math.round(totalSpent / totalBudget * 100) : 0;
+
+    const setText = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+    setText('totalBudgetValue', formatNumber(totalBudget) + ' Р');
+
+    const spentEl = document.getElementById('totalSpentValue');
+    if (spentEl) { spentEl.textContent = formatNumber(totalSpent) + ' Р'; spentEl.className = 'summary-value ' + (totalSpent > totalBudget ? 'red' : 'green'); }
+
+    const remEl = document.getElementById('remainingValue');
+    if (remEl) { remEl.textContent = (remaining < 0 ? '-' : '') + formatNumber(Math.abs(remaining)) + ' Р'; remEl.className = 'summary-value ' + (remaining < 0 ? 'red' : 'green'); }
+
+    setText('spentPercentText', percent + '% от бюджета');
+    setText('spentPercent', percent + '%');
+    setText('progressEndValue', formatNumber(totalBudget) + ' Р');
+
+    const fill = document.getElementById('mainProgressFill');
+    if (fill) { fill.style.width = Math.min(percent, 100) + '%'; fill.className = 'progress-fill ' + (percent > 100 ? 'red' : percent > 80 ? 'orange' : 'green'); }
+
+    const alert = document.getElementById('budgetAlert');
+    if (alert) alert.style.display = cats.some(c => c.spent > c.budget) ? 'flex' : 'none';
+
+    const container = document.getElementById('categoriesContainer');
+    if (!container) return;
+
+    if (cats.length === 0) {
+        container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:#94a3b8;">
+            <i class="fas fa-chart-pie" style="font-size:3rem;display:block;margin-bottom:1rem;opacity:.3"></i>
+            Категорий ещё нет. Добавьте первую категорию бюджета.</div>`;
+        return;
+    }
+    container.innerHTML = cats.map(renderCategoryCard).join('');
+}
+
+// ──────────────────────────────────────────────
+// Модальные окна
+// ──────────────────────────────────────────────
 function openAddCategoryModal() {
-    const modal = document.getElementById('addCategoryModal');
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        initColorPicker('addCategoryModal');
-    }
+    editingCatId = null;
+    addSelectedColor = '#3b82f6';
+    resetColorPicker('addColorPicker', addSelectedColor);
+    document.getElementById('addCategoryForm')?.reset();
+    openModal('addCategoryModal');
 }
 
-function openEditCategoryModal(name, amount, color) {
-    const modal = document.getElementById('editCategoryModal');
-    if (modal) {
-        document.getElementById('editCategoryName').value = name;
-        document.getElementById('editCategoryAmount').value = amount;
-        selectedColor = color;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        initColorPicker('editCategoryModal');
-        setActiveColor(color);
-        
-        // Сохраняем имя редактируемой категории
-        window.editingCategoryName = name;
-    }
+function openEditCategoryModal(id, name, budget, color) {
+    editingCatId = id;
+    editSelectedColor = color;
+    document.getElementById('editCategoryOriginalName').value = name;
+    document.getElementById('editCategoryName').value   = name;
+    document.getElementById('editCategoryAmount').value = budget;
+    resetColorPicker('editColorPicker', color);
+    openModal('editCategoryModal');
 }
 
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
+function openModal(id) { document.getElementById(id)?.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id)?.classList.remove('active'); document.body.style.overflow = ''; }
 
-function initColorPicker(modalId) {
-    const modal = document.getElementById(modalId);
-    const colorOptions = modal.querySelectorAll('.color-option');
-    
-    colorOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            colorOptions.forEach(opt => opt.classList.remove('active'));
+function resetColorPicker(pickerId, activeColor) {
+    const picker = document.getElementById(pickerId);
+    if (!picker) return;
+    picker.querySelectorAll('.color-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.color === activeColor);
+        opt.onclick = function() {
+            picker.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
             this.classList.add('active');
-            selectedColor = this.dataset.color;
-        });
+            if (pickerId === 'addColorPicker')  addSelectedColor  = this.dataset.color;
+            if (pickerId === 'editColorPicker') editSelectedColor = this.dataset.color;
+        };
     });
 }
 
-function setActiveColor(color) {
-    const modal = document.getElementById('editCategoryModal');
-    if (modal) {
-        const colorOptions = modal.querySelectorAll('.color-option');
-        colorOptions.forEach(option => {
-            option.classList.remove('active');
-            if (option.dataset.color === color) {
-                option.classList.add('active');
-            }
-        });
-    }
+async function deleteCategory(id, name) {
+    if (!confirm(`Удалить категорию "${name}"?`)) return;
+    try {
+        await API.delete('/budgets/' + id);
+        _categories = _categories.filter(c => c.id !== id);
+        renderBudget();
+        showToast(`Категория "${name}" удалена`, 'info');
+    } catch (err) { showToast(err.message, 'error'); }
 }
 
-// Загрузка категорий из localStorage
-function loadCategories() {
-    const categories = JSON.parse(localStorage.getItem('budgetCategories') || '[]');
-    return categories;
+// ──────────────────────────────────────────────
+// Nav toggle
+// ──────────────────────────────────────────────
+function initNavToggle() {
+    const toggle = document.getElementById('navToggle');
+    const menu   = document.querySelector('.nav-menu');
+    if (!toggle || !menu) return;
+    toggle.addEventListener('click', e => { e.stopPropagation(); const open = menu.classList.toggle('nav-open'); toggle.querySelector('i').className = open ? 'fas fa-times' : 'fas fa-bars'; });
+    document.addEventListener('click', e => { if (!menu.contains(e.target) && !toggle.contains(e.target)) { menu.classList.remove('nav-open'); const ic = toggle.querySelector('i'); if (ic) ic.className = 'fas fa-bars'; } });
 }
 
-// Сохранение категорий в localStorage
-function saveCategories(categories) {
-    localStorage.setItem('budgetCategories', JSON.stringify(categories));
-}
+// ──────────────────────────────────────────────
+// Init
+// ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async function() {
+    initNavToggle();
+    await loadAllData();
+    renderBudget();
 
-// Инициализация дефолтных категорий
-function initDefaultCategories() {
-    const categories = loadCategories();
-    if (categories.length === 0) {
-        const defaultCategories = [
-            { name: 'Продукты', budget: 40000, spent: 35000, color: '#3b82f6' },
-            { name: 'Транспорт', budget: 10000, spent: 15000, color: '#f97316' },
-            { name: 'Здоровье', budget: 10000, spent: 4500, color: '#ec4899' },
-            { name: 'Косметика', budget: 10000, spent: 0, color: '#14b8a6' }
-        ];
-        saveCategories(defaultCategories);
-    }
-}
-
-function deleteCategory(name) {
-    if (confirm(`Вы уверены, что хотите удалить категорию "${name}"?`)) {
-        const categories = loadCategories();
-        const filtered = categories.filter(cat => cat.name !== name);
-        saveCategories(filtered);
-        alert(`Категория "${name}" удалена!`);
-        location.reload(); // Перезагружаем страницу для обновления
-    }
-}
-
-// Закрытие модальных окон при клике вне их
-document.addEventListener('click', function(event) {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-        if (event.target === modal) {
-            closeModal(modal.id);
-        }
-    });
-});
-
-// Обработка формы добавления категории
-document.addEventListener('DOMContentLoaded', function() {
-    initDefaultCategories();
-
-    const addForm = document.getElementById('addCategoryForm');
-    if (addForm) {
-        addForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = addForm.querySelector('input[type="text"]').value;
-            const amount = parseInt(addForm.querySelector('input[type="number"]').value);
-            const colorOption = addForm.querySelector('.color-option.active');
-            const color = colorOption ? colorOption.dataset.color : '#3b82f6';
-
-            if (!name || !amount) {
-                alert('Пожалуйста, заполните все поля');
-                return;
-            }
-
-            const categories = loadCategories();
-            const newCategory = {
-                name: name,
-                budget: amount,
-                spent: 0,
-                color: color
-            };
-            categories.push(newCategory);
-            saveCategories(categories);
-
-            alert('Категория успешно добавлена!');
+    // Форма добавления
+    document.getElementById('addCategoryForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name   = document.getElementById('addCategoryName').value.trim();
+        const budget = parseInt(document.getElementById('addCategoryBudget').value);
+        if (!name || !budget || budget < 1) { showToast('Заполните все поля', 'error'); return; }
+        try {
+            const row = await API.post('/budgets', { name, budget, color: addSelectedColor });
+            _categories.push(row);
             closeModal('addCategoryModal');
-            addForm.reset();
-            location.reload();
-        });
-    }
+            renderBudget();
+            showToast(`Категория "${name}" добавлена`, 'success');
+        } catch (err) { showToast(err.message, 'error'); }
+    });
 
-    const editForm = document.getElementById('editCategoryForm');
-    if (editForm) {
-        editForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('editCategoryName').value;
-            const amount = parseInt(document.getElementById('editCategoryAmount').value);
-            const colorOption = editForm.querySelector('.color-option.active');
-            const color = colorOption ? colorOption.dataset.color : '#3b82f6';
+    // Форма редактирования
+    document.getElementById('editCategoryForm')?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name   = document.getElementById('editCategoryName').value.trim();
+        const budget = parseInt(document.getElementById('editCategoryAmount').value);
+        if (!name || !budget || budget < 1) { showToast('Заполните все поля', 'error'); return; }
+        try {
+            const row = await API.put('/budgets/' + editingCatId, { name, budget, color: editSelectedColor });
+            const idx = _categories.findIndex(c => c.id === editingCatId);
+            if (idx !== -1) _categories[idx] = row;
+            closeModal('editCategoryModal');
+            renderBudget();
+            showToast('Изменения сохранены', 'success');
+        } catch (err) { showToast(err.message, 'error'); }
+    });
 
-            if (!name || !amount) {
-                alert('Пожалуйста, заполните все поля');
-                return;
-            }
-
-            const categories = loadCategories();
-            const editingName = window.editingCategoryName || name;
-            const index = categories.findIndex(cat => cat.name === editingName);
-            if (index !== -1) {
-                const spent = categories[index].spent; // Сохраняем потраченную сумму
-                categories[index] = {
-                    name: name,
-                    budget: amount,
-                    spent: spent,
-                    color: color
-                };
-                saveCategories(categories);
-                alert('Изменения сохранены!');
-                closeModal('editCategoryModal');
-                location.reload();
-            } else {
-                alert('Категория не найдена');
-            }
-        });
-    }
-
-    // Установка активного цвета по умолчанию
-    const addModal = document.getElementById('addCategoryModal');
-    if (addModal) {
-        const firstColor = addModal.querySelector('.color-option');
-        if (firstColor) {
-            firstColor.classList.add('active');
-        }
-    }
+    document.addEventListener('click', e => { document.querySelectorAll('.modal').forEach(m => { if (e.target === m) closeModal(m.id); }); });
 });
 
+window.openAddCategoryModal  = openAddCategoryModal;
+window.openEditCategoryModal = openEditCategoryModal;
+window.closeModal            = closeModal;
+window.deleteCategory        = deleteCategory;

@@ -347,6 +347,32 @@
     color: #10b981;
 }
 
+/* ══════════════════════════════
+   Тёмная тема — страница профиля
+   ══════════════════════════════ */
+[data-theme="dark"] .profile-tabs  { border-bottom-color: #334155; }
+[data-theme="dark"] .profile-tab   { color: #94a3b8; }
+[data-theme="dark"] .profile-tab:hover { background: #334155; color: #e2e8f0; }
+[data-theme="dark"] .profile-tab.active { color: #818cf8; border-bottom-color: #818cf8; }
+
+[data-theme="dark"] .profile-card   { background: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+[data-theme="dark"] .section-title  { color: #f1f5f9; }
+
+[data-theme="dark"] .form-group label { color: #e2e8f0; }
+[data-theme="dark"] .form-input { background: #0f172a; border-color: #334155; color: #e2e8f0; }
+[data-theme="dark"] .form-input:focus { border-color: #667eea; background: #0f172a; }
+
+[data-theme="dark"] .security-option { background: #0f172a; }
+[data-theme="dark"] .security-info h3 { color: #f1f5f9; }
+[data-theme="dark"] .security-info p  { color: #94a3b8; }
+
+[data-theme="dark"] .session-item { background: #0f172a; }
+[data-theme="dark"] .session-info strong { color: #f1f5f9; }
+[data-theme="dark"] .session-info p { color: #94a3b8; }
+
+[data-theme="dark"] .checkbox-label { color: #e2e8f0; }
+[data-theme="dark"] .upload-hint { color: #94a3b8; }
+
 @media (max-width: 768px) {
     .profile-tabs {
         overflow-x: auto;
@@ -382,5 +408,34 @@
         align-items: flex-start;
         gap: 1rem;
     }
+}
+
+@media (max-width: 480px) {
+    .profile-card { padding: 1rem; }
+
+    .section-title { font-size: 1.2rem; margin-bottom: 1.25rem; }
+
+    .profile-tab {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.82rem;
+    }
+
+    .profile-photo {
+        width: 90px;
+        height: 90px;
+        font-size: 2.2rem;
+    }
+
+    .photo-edit-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+
+    .profile-section { margin-bottom: 2rem; }
+
+    .form-group { margin-bottom: 1rem; }
+
+    .btn-outline { padding: 0.65rem 1rem; font-size: 0.9rem; }
 }
 

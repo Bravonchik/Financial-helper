@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Профиль - Финансовый помощник</title>
+    <script>(function(){var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);})();</script>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,6 +19,7 @@
                 </div>
                 <span class="logo-text">Финансовый помощник</span>
             </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Открыть меню"><i class="fas fa-bars"></i></button>
             <div class="nav-menu">
                 <a href="index.html" class="nav-link">
                     <i class="fas fa-home"></i>
@@ -35,6 +37,10 @@
                     <i class="fas fa-chart-bar"></i>
                     <span>Отчёты</span>
                 </a>
+                <a href="goals.html" class="nav-link">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Цели</span>
+                </a>
                 <a href="profile.html" class="nav-link active">
                     <i class="fas fa-user"></i>
                     <span>Профиль</span>
@@ -48,15 +54,15 @@
         <div class="container">
             <!-- Вторичная навигация -->
             <div class="profile-tabs">
-                <a href="#" class="profile-tab active" onclick="switchProfileTab('profile'); return false;">
+                <a href="#" class="profile-tab active" onclick="switchProfileTab('profile', this); return false;">
                     <i class="fas fa-user"></i>
                     <span>Профиль</span>
                 </a>
-                <a href="#" class="profile-tab" onclick="switchProfileTab('settings'); return false;">
+                <a href="#" class="profile-tab" onclick="switchProfileTab('settings', this); return false;">
                     <i class="fas fa-bell"></i>
                     <span>Настройки</span>
                 </a>
-                <a href="#" class="profile-tab" onclick="switchProfileTab('security'); return false;">
+                <a href="#" class="profile-tab" onclick="switchProfileTab('security', this); return false;">
                     <i class="fas fa-lock"></i>
                     <span>Безопасность</span>
                 </a>
@@ -192,18 +198,17 @@
                         <form class="profile-form">
                             <div class="form-group">
                                 <label>Язык интерфейса</label>
-                                <select class="form-input">
-                                    <option>Русский</option>
-                                    <option>English</option>
-                                    <option>Українська</option>
+                                <select class="form-input" id="langSelect">
+                                    <option value="ru">Русский</option>
+                                    <option value="en">English</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Тема оформления</label>
-                                <select class="form-input">
-                                    <option>Светлая</option>
-                                    <option>Тёмная</option>
-                                    <option>Автоматическая</option>
+                                <select class="form-input" id="themeSelect">
+                                    <option value="light">Светлая</option>
+                                    <option value="dark">Тёмная</option>
+                                    <option value="auto">Автоматическая</option>
                                 </select>
                             </div>
                         </form>
@@ -212,29 +217,21 @@
 
                 <!-- Вкладка: Безопасность -->
                 <div id="securityTab" class="profile-tab-content">
+                    <!-- Смена пароля -->
                     <div class="profile-section">
                         <h2 class="section-title">Смена пароля</h2>
                         <form class="profile-form" id="changePasswordForm">
                             <div class="form-group">
-                                <label>
-                                    <i class="fas fa-lock"></i>
-                                    Текущий пароль
-                                </label>
-                                <input type="password" class="form-input" required>
+                                <label><i class="fas fa-lock"></i> Текущий пароль</label>
+                                <input type="password" class="form-input" placeholder="Введите текущий пароль" required>
                             </div>
                             <div class="form-group">
-                                <label>
-                                    <i class="fas fa-key"></i>
-                                    Новый пароль
-                                </label>
-                                <input type="password" class="form-input" required>
+                                <label><i class="fas fa-key"></i> Новый пароль</label>
+                                <input type="password" class="form-input" placeholder="Минимум 6 символов" required>
                             </div>
                             <div class="form-group">
-                                <label>
-                                    <i class="fas fa-key"></i>
-                                    Подтвердите новый пароль
-                                </label>
-                                <input type="password" class="form-input" required>
+                                <label><i class="fas fa-key"></i> Подтвердите новый пароль</label>
+                                <input type="password" class="form-input" placeholder="Повторите пароль" required>
                             </div>
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save"></i>
@@ -243,41 +240,28 @@
                         </form>
                     </div>
 
+                    <!-- Выход -->
                     <div class="profile-section">
-                        <h2 class="section-title">Двухфакторная аутентификация</h2>
-                        <div class="security-option">
-                            <div class="security-info">
-                                <h3>Двухфакторная аутентификация</h3>
-                                <p>Дополнительная защита вашего аккаунта</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="twoFactorAuth">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="profile-section">
-                        <h2 class="section-title">Активные сессии</h2>
-                        <div class="sessions-list">
-                            <div class="session-item">
-                                <div class="session-info">
-                                    <i class="fas fa-desktop"></i>
-                                    <div>
-                                        <strong>Windows - Chrome</strong>
-                                        <p>Текущая сессия • Москва, Россия</p>
-                                    </div>
-                                </div>
-                                <span class="session-status active">Активна</span>
-                            </div>
-                        </div>
+                        <h2 class="section-title">Сессия</h2>
+                        <p style="color:#64748b;font-size:0.95rem;margin-bottom:1.25rem;">
+                            После выхода потребуется снова войти в аккаунт.
+                        </p>
+                        <button class="btn btn-danger" onclick="logoutUser()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Выйти из аккаунта</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <script src="api.js"></script>
+    <script src="i18n.js"></script>
+    <script src="auth.js"></script>
+    <script src="common.js"></script>
     <script src="profile.js"></script>
 </body>
 </html>
+
 
